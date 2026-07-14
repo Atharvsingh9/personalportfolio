@@ -1,0 +1,44 @@
+.loaderWrapper {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: #050816;
+
+  overflow: hidden;
+
+  z-index: 9999;
+}
+
+.loader {
+  width: clamp(90px, 10vw, 170px);
+  height: auto;
+}
+
+.name {
+  margin-top: 35px;
+
+  color: white;
+
+  font-size: clamp(2rem, 5vw, 4rem);
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  margin-top: 10px;
+
+  color: #8b8fa8;
+
+  font-size: 1rem;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
