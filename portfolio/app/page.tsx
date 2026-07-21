@@ -1,12 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 import BorderGlow from "@/components/BorderGlow/BorderGlow";
 import BlurText from "@/components/BlurText";
-import LanyardShowcase from "@/components/LanyardShowcase";
 import { LetterCascade } from "@/components/ui/letter-cascade";
 import { projects } from "@/lib/projects";
 import styles from "./page.module.css";
 
 const skills = ["LLMs & Agents", "Machine Learning", "Deep Learning", "Data Science", "MLOps", "Computer Vision", "NLP", "Python"];
+
+const contacts = [
+  { href: "https://github.com/Atharvsingh9", label: "GitHub", icon: "GH" },
+  { href: "https://linkedin.com/in/atharv-s-324102318", label: "LinkedIn", icon: "LI" },
+  { href: "mailto:singhatharv673@gmail.com", label: "Email", icon: "✉" },
+];
 
 export default function Home() {
   return (
@@ -14,8 +20,8 @@ export default function Home() {
       <nav className={styles.nav}><Link href="/" className={styles.logo}><LetterCascade text="ATHARV" stiffness={500} damping={22} staggerDuration={0.02} /></Link><span>AI Engineer / 2026</span><a href="#projects" className={styles.navPill}>Selected work ↘</a></nav>
 
       <section className={styles.hero}>
-        <div className={styles.heroCopy}><p className={styles.eyebrow}>AVAILABLE FOR AMBITIOUS AI PRODUCTS</p><h1>Hi I&apos;m <LetterCascade text="Atharv" stiffness={500} damping={22} staggerDuration={0.02} className={styles.cascade} /></h1><h2><i>AI Engineer</i></h2><BlurText text="I build intelligent, useful systems from curious ideas and complex data." animateBy="words" direction="bottom" className={styles.heroDescription} /><div className={styles.heroActions}><a href="#projects" className={styles.darkButton}>Explore work <span>↘</span></a><a href="#about" className={styles.textButton}>More about me →</a></div></div>
-        <div className={styles.lanyardShell} aria-label="Interactive profile lanyard"><LanyardShowcase /></div>
+        <div className={styles.heroCopy}><p className={styles.eyebrow}>AVAILABLE FOR AMBITIOUS AI PRODUCTS</p><h1>Hi I&apos;m <LetterCascade text="Atharv" stiffness={500} damping={22} staggerDuration={0.02} className={styles.cascade} /></h1><h2><i>AI Engineer</i></h2><BlurText text="I build intelligent, useful systems from curious ideas and complex data." animateBy="words" direction="bottom" className={styles.heroDescription} /><div className={styles.heroActions}><a href="#projects" className={styles.darkButton}>Explore work <span>↘</span></a><a href="#about" className={styles.textButton}>More about me →</a></div><div className={styles.contactRow}>{contacts.map(({ href, label, icon }) => <a key={label} href={href} className={styles.contactLink} target="_blank" rel="noopener noreferrer" aria-label={label}><span className={styles.contactIcon}>{icon}</span><span className={styles.contactLabel}>{label}</span></a>)}</div></div>
+        <div className={styles.heroFrame}><div className={styles.frameInner}><div className={styles.frameLabel}>ATHARV SINGH / AI ENGINEER</div><Image src="/portrait.jpg" alt="Atharv Singh" fill sizes="(max-width: 700px) 62vw, 24rem" className={styles.photo} priority /><div className={styles.frameCorner} /></div></div>
         <div className={styles.heroStamp}>Scroll to discover <span>↓</span></div>
       </section>
 
@@ -29,7 +35,7 @@ export default function Home() {
 
       <section id="projects" className={styles.projects}><div className={styles.projectsIntro}><div><p className={styles.sectionKicker}>05 / SELECTED WORKS</p><h2>Small experiments.<br /><i>Big systems.</i></h2></div><BlurText text="Ten case studies exploring the edge of AI, data, and thoughtful product engineering." direction="bottom" className={styles.projectsCopy} /></div><div className={styles.projectGrid}>{projects.map((project, index) => <Link href={`/projects/${project.slug}`} key={project.slug} className={`${styles.projectCard} ${styles[project.color]}`}><div className={styles.projectVisual}><span className={styles.projectIndex}>0{index + 1}</span><div className={styles.projectOrb} /><div className={styles.projectLines} /><span className={styles.explore}>Explore project ↗</span></div><div className={styles.projectMeta}><span>{project.category}</span><h3>{project.name}</h3><b>{project.year}</b></div></Link>)}</div></section>
 
-      <footer className={styles.footer}><p>Let&apos;s build something worth remembering.</p><a href="mailto:hello@atharvsingh.dev" className={styles.darkButton}>Get in touch ↗</a><span>© 2026 Atharv Singh</span></footer>
+      <footer className={styles.footer}><p>Let&apos;s build something worth remembering.</p><a href="mailto:singhatharv673@gmail.com" className={styles.darkButton}>Get in touch ↗</a><span>© 2026 Atharv Singh</span></footer>
     </main>
   );
 }
