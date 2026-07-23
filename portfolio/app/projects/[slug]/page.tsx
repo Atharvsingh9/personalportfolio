@@ -11,6 +11,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+  const currentIndex = projects.findIndex(p => p.slug === slug);
+  const nextProject = projects[(currentIndex + 1) % projects.length];
   const code = `# ${project.name.toLowerCase().replace(" ", "_")}.py\nfrom app.pipeline import build_features\nfrom models.inference import Predictor\n\ndef run(payload: dict):\n    features = build_features(payload)\n    prediction = Predictor.load().predict(features)\n    return {"result": prediction, "status": "ready"}`;
   return <main className={styles.page}>
     <nav className={styles.nav}><Link href="/">← ATHARV SINGH</Link><span>{project.category} / {project.year}</span><a href="#demo">Jump to demo ↓</a></nav>
@@ -22,6 +24,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <section id="demo" className={styles.demo}><div><p className={styles.kicker}>04 / PROJECT DEMO</p><h2>Try the <i>thinking</i>.</h2></div><div className={styles.demoPanel}><aside><span>DATA READY</span><b>98.4%</b><small>pipeline confidence</small></aside><main><div className={styles.chart}><i /><i /><i /><i /><i /><i /><i /></div><p>Interactive preview / live model response</p><button>Run prediction →</button></main></div></section>
     <section className={styles.screens}><p className={styles.kicker}>05 / SCREENS & PREVIEW</p><div><figure><span>01</span><b>Model workspace</b></figure><figure><span>02</span><b>Insights dashboard</b></figure><figure><span>03</span><b>Evaluation report</b></figure></div></section>
     <section id="code" className={styles.codeSection}><p className={styles.kicker}>06 / IMPLEMENTATION</p><div className={styles.codeLayout}><div className={styles.code}><div><span>project.py</span><span>Python</span></div><pre><code>{code}</code></pre></div><div className={styles.tree}><p>EXPLORER</p><ProjectFileTree /></div></div></section>
-    <footer className={styles.footer}><Link href="/">← Back to portfolio</Link><Link href={`/projects/project-${Number(project.slug.split("-")[1]) === 10 ? 1 : Number(project.slug.split("-")[1]) + 1}`}>Next project ↗</Link></footer>
+    <footer className={styles.footer}><Link href="/">← Back to portfolio</Link><Link href={`/projects/${nextProject.slug}`}>Next project ↗</Link></footer>
   </main>;
 }

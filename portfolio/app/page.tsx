@@ -3,6 +3,9 @@ import Image from "next/image";
 import BorderGlow from "@/components/BorderGlow/BorderGlow";
 import BlurText from "@/components/BlurText";
 import { LetterCascade } from "@/components/ui/letter-cascade";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
+import ProjectActions from "@/components/ProjectActions";
+import MobileNav from "@/components/MobileNav";
 import { projects } from "@/lib/projects";
 import styles from "./page.module.css";
 
@@ -17,7 +20,7 @@ const contacts = [
 export default function Home() {
   return (
     <main className={styles.page}>
-      <nav className={styles.nav}><Link href="/" className={styles.logo}><LetterCascade text="ATHARV" stiffness={500} damping={22} staggerDuration={0.02} /></Link><span>AI Engineer / 2026</span><a href="#projects" className={styles.navPill}>Selected work ↘</a></nav>
+      <nav className={styles.nav}><Link href="/" className={styles.logo}><LetterCascade text="ATHARV" stiffness={500} damping={22} staggerDuration={0.02} /></Link><div className={styles.navRight}><span>AI Engineer / 2026</span><a href="#projects" className={styles.navPill}>Selected work ↘</a></div><MobileNav /></nav>
 
       <section className={styles.hero}>
         <div className={styles.heroCopy}><p className={styles.eyebrow}>AVAILABLE FOR AMBITIOUS AI PRODUCTS</p><h1>Hi I&apos;m <LetterCascade text="Atharv" stiffness={500} damping={22} staggerDuration={0.02} className={styles.cascade} /></h1><h2><i>AI Engineer</i></h2><BlurText text="I build intelligent, useful systems from curious ideas and complex data." animateBy="words" direction="bottom" className={styles.heroDescription} /><div className={styles.heroActions}><a href="#projects" className={styles.darkButton}>Explore work <span>↘</span></a><a href="#about" className={styles.textButton}>More about me →</a></div><div className={styles.contactRow}>{contacts.map(({ href, label, icon }) => <a key={label} href={href} className={styles.contactLink} target="_blank" rel="noopener noreferrer" aria-label={label}><span className={styles.contactIcon}>{icon}</span><span className={styles.contactLabel}>{label}</span></a>)}</div></div>
@@ -31,9 +34,37 @@ export default function Home() {
 
       <section className={styles.skills}><p className={styles.sectionKicker}>03 / SKILLS & TECHNOLOGIES</p><div className={styles.skillCloud}>{skills.map((skill, index) => <span key={skill} className={index % 3 === 0 ? styles.acid : ""}>{skill}</span>)}</div></section>
 
-      <section id="experience" className={styles.experience}><p className={styles.sectionKicker}>04 / EXPERIENCE</p><div className={styles.experienceRows}>{[["AI Engineer", "Building practical AI systems", "2025 — now"], ["Machine Learning", "Models, evaluation, experimentation", "2024 — 25"], ["Data Science", "Insight-to-action products", "2023 — 24"]].map(([role, description, time]) => <article key={role}><h3>{role}</h3><p>{description}</p><span>{time}</span></article>)}</div></section>
+      <ExperienceTimeline />
 
-      <section id="projects" className={styles.projects}><div className={styles.projectsIntro}><div><p className={styles.sectionKicker}>05 / SELECTED WORKS</p><h2>Small experiments.<br /><i>Big systems.</i></h2></div><BlurText text="Ten case studies exploring the edge of AI, data, and thoughtful product engineering." direction="bottom" className={styles.projectsCopy} /></div><div className={styles.projectGrid}>{projects.map((project, index) => <Link href={`/projects/${project.slug}`} key={project.slug} className={`${styles.projectCard} ${styles[project.color]}`}><div className={styles.projectVisual}><span className={styles.projectIndex}>0{index + 1}</span><div className={styles.projectOrb} /><div className={styles.projectLines} /><span className={styles.explore}>Explore project ↗</span></div><div className={styles.projectMeta}><span>{project.category}</span><h3>{project.name}</h3><b>{project.year}</b></div></Link>)}</div></section>
+      <section id="projects" className={styles.projects}><div className={styles.projectsIntro}><div><p className={styles.sectionKicker}>05 / SELECTED WORKS</p><h2>Small experiments.<br /><i>Big systems.</i></h2></div><BlurText text="A curated collection of AI systems and thoughtful product engineering." direction="bottom" className={styles.projectsCopy} /></div><div className={styles.projectGrid}>{projects.map((project, index) => {
+        const cardClass = project.featured
+          ? `${styles.projectCard} ${styles[project.color]} ${styles.featuredCard}`
+          : `${styles.projectCard} ${styles[project.color]}`;
+        return <Link href={`/projects/${project.slug}`} key={project.slug} className={cardClass}>
+          <div className={styles.projectVisual}>
+            <span className={styles.projectIndex}>0{index + 1}</span>
+            {project.featured && <span className={styles.featuredBadge}>Featured Project</span>}
+            <div className={styles.projectOrb} />
+            <div className={styles.projectLines} />
+            {project.featured && project.technologies && (
+              <div className={styles.projectTech}>
+                {project.technologies.map(tech => <span key={tech}>{tech}</span>)}
+              </div>
+            )}
+            {project.featured && (
+              <div className={styles.projectLinks}>
+                <ProjectActions githubUrl={project.githubUrl} demoUrl={project.demoUrl} />
+              </div>
+            )}
+            <span className={styles.explore}>Explore project ↗</span>
+          </div>
+          <div className={styles.projectMeta}>
+            <span>{project.category}</span>
+            <h3>{project.name}</h3>
+            <b>{project.year}</b>
+          </div>
+        </Link>;
+      })}</div></section>
 
       <footer className={styles.footer}><p>Let&apos;s build something worth remembering.</p><a href="mailto:singhatharv673@gmail.com" className={styles.darkButton}>Get in touch ↗</a><span>© 2026 Atharv Singh</span></footer>
     </main>
